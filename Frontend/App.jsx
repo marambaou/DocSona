@@ -7,8 +7,10 @@ import HeroSection from './Landing-Page/HeroSection';
 import AboutUsSection from './Landing-Page/AboutUsSection';
 import SpecialtySection from './Landing-Page/Specialty';
 import Reviews from './Landing-Page/reviews.jsx';
-
-
+import LoginForm from './Landing-Page/loginForm.jsx';
+import ProtectedRoute from './Landing-Page/ProtectedRoute.jsx';
+import DoctorDashboard from './Landing-Page/DoctorDashboard.jsx';
+import PatientDasboard from './Landing-Page/PatientDashboard.jsx';
 
 export default function App() {
   return (
@@ -28,11 +30,14 @@ export default function App() {
         } />
 
         {/* Doctor Dashboard */}
-        {/* <Route path="/doctor" element={<DashboardHome />} /> */}
+        <Route path="/doctor" element={<ProtectedRoute><DoctorDashboard/></ProtectedRoute>} />
 
         {/* Patient Dashboard */}
-        {/* <Route path="/patient" element={<PatientHome />} /> */}
+        <Route path="/patient" element={<ProtectedRoute><PatientDasboard/></ProtectedRoute>} /> 
+
+         <Route path="/login" element={<LoginForm />} />
       </Routes>
     </Router>
   );
 }
+ 

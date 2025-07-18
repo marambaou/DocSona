@@ -1,7 +1,14 @@
 import React from 'react';
 import heroImage from '../assets/femaleDoctor-removebg.png';
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+   const navigate = useNavigate();
+  
+    const handleClick = () => {
+      navigate('/login'); 
+    };
+  
   return (
     <section className="min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-16 pt-32 pb-16 bg-gradient-to-br from-blue-100 via-purple-100 to-white">
       {/* Left Text Section */}
@@ -12,7 +19,7 @@ const HeroSection = () => {
         <p className="text-gray-600 mt-6 text-base md:text-lg">
           DocSona is your digital medical companion, built to streamline patient-doctor interaction and bring your medical history to your fingertips.
         </p>
-        <button className="mt-8 bg-[#1D4ED8] text-white px-6 py-3 rounded-full text-sm font-medium bg-sky-500 hover:bg-blue-700 transition">
+        <button onClick={handleClick} className="mt-8 bg-[#1D4ED8] text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-blue-700 transition">
           Get Started
         </button>
       </div>

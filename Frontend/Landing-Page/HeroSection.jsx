@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import heroImage from '../assets/femaleDoctor-removebg.png';
 
 const HeroSection = () => {
@@ -12,9 +13,12 @@ const HeroSection = () => {
         <p className="text-gray-600 mt-6 text-base md:text-lg">
           DocSona is your digital medical companion, built to streamline patient-doctor interaction and bring your medical history to your fingertips.
         </p>
-        <button className="mt-8 bg-[#1D4ED8] text-white px-6 py-3 rounded-full text-sm font-medium bg-sky-500 hover:bg-blue-700 transition">
+        <Link
+          to="/register"
+          className="mt-8 inline-block bg-[#1D4ED8] text-white px-6 py-3 rounded-full text-sm font-medium bg-sky-500 hover:bg-blue-700 transition"
+        >
           Get Started
-        </button>
+        </Link>
       </div>
 
       {/* Right Image Section */}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Integrity() {
 
@@ -43,12 +44,12 @@ export default function Integrity() {
         <div className="grid grid-cols-2 gap-3" id="Images">
 <div className="ml-4 lg:ml-16 mb-6">
         <img
-            src="/Frontend/assets/image__1_-removebg-preview (1).png"
+            src="/assets/image__1_-removebg-preview (1).png"
             alt="Our values"
             className="rounded-3xl shadow-md w-60 h-70"
           />
            <img
-            src="/Frontend/assets/image-removebg-preview.png"
+            src="/assets/image-removebg-preview.png"
             alt="Our values"
             className="rounded-3xl shadow-md w-60 h-70 mt-4"
           />
@@ -56,12 +57,12 @@ export default function Integrity() {
           </div >
           <div className="mr-4 lg:mr-14 mt-6 lg:mt-16 pl-6" >
            <img
-            src= "/Frontend/assets/image__3_-removebg-preview.png"
+            src= "/assets/image__3_-removebg-preview.png"
             alt="Our values"
             className="rounded-3xl shadow-md w-60 h-70 "
           />
            <img
-            src="/Frontend/assets/image__2_-removebg-preview.png"
+            src="/assets/image__2_-removebg-preview.png"
             alt="Our values"
             className="rounded-3xl shadow-md w-60 h-70 mt-4"
           /> 
@@ -71,78 +72,20 @@ export default function Integrity() {
 <h3 className="text-[#0086FF] h-full text-[18px] font-semibold" >Integrity</h3>
 <h1  className="text-[#234A6B] text-[30px] font-bold">Our Stellar Values</h1>
 
-<p  className="text-[#757575] ">The cornerstone of our establishment is ‘Making the
- benefits of exceptional medical services reach the people
- without Discrimination.’ We strive to live up to this
- philosophy through our stellar values, that are the pillars
- of every service that we offer under the banner of our
- prestigious hospital</p>
+<p className="text-[#757575] ">
+  The cornerstone of our establishment is ‘Making the benefits of exceptional medical services reach the people without discrimination.’
+  <br />
+  <br />
+  At DocSona, we are dedicated to connecting patients and doctors seamlessly through our digital platform. Our mission is to ensure that every patient can easily access the right medical professional, receive timely care, and manage their health records efficiently. We believe in transparency, compassion, and innovation—empowering both patients and healthcare providers to communicate, collaborate, and achieve the best health outcomes together.
+  <br />
+  <br />
+  Whether you are seeking a consultation, a second opinion, or ongoing care, our platform bridges the gap between you and trusted medical experts. Join us in building a healthier, more connected community.
+</p>
 
- <button  onClick={() => setShowModal(true)} className="text-[#FFFFFF] bg-[#0086FF] items-center justify-center px-6 py-2 rounded mt-8 ">Contact Us</button>
+ <Link to="/contact" className="text-[#FFFFFF] bg-[#0086FF] px-5 py-2 rounded mt-8 inline-block text-center hover:bg-blue-700 transition">Contact Us</Link>
      </div>
      </div>
   {/* Modal for contact form*/}
-      {showModal && (
-        <div className="fixed inset-0 bg-[#757575] bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg max-w-md w-full relative shadow-lg">
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute top-2 right-2 text-gray-600 hover:text-black text-xl"
-            >
-              &times;
-            </button>
-            <h2 className="text-xl font-bold text-[#234A6B] mb-4">Contact Us</h2>
-
- {/* form*/}
-            <form className="space-y-4" onSubmit={handleSubmit}>
-                <div>
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="w-full border border-gray-300 p-2 rounded"
-                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              />
-                {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
-                </div>
-
-                <div>
-              <input
-                type="email"
-                placeholder="Your Email"
-                className="w-full border border-gray-300 p-2 rounded"
-                 value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              />
-              {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-               </div>
-
-               <div>
-              <textarea
-                placeholder="Your Message"
-                className="w-full border border-gray-300 p-2 rounded h-24"
-                 value={formData.message}
-      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              />
- {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
-             </div>
-
-               {isSubmitted && (
-    <p className="text-green-600 text-sm">Message sent! We'll get back to you soon.</p>
-  )}
-              <button
-                type="submit"
-                className="bg-[#0086FF] text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-              >
-                Send Message
-              </button>
-            </form>
-
-
-          </div>
-        </div>
-
-   )}
 
 
       </section>

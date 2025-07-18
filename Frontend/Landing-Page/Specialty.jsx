@@ -11,7 +11,7 @@ import aid from "../assets/icons/medicalaid.png";
 
 const specialties = [
   { title: "Dentistry", description: "Get consultation form our Dentistry team", icon: dentistry },
-  { title: "General Diagnosis", description: "Get consultation form our General Diagnosis team", icon: diagnosis, highlight: true },
+  { title: "General Diagnosis", description: "Get consultation form our General Diagnosis team", icon: diagnosis },
   { title: "Neuro Surgery", description: "Get consultation form our Neuro Surgery team", icon: neurosurgery },
   { title: "Cardiology", description: "Get consultation form our Cardiology team", icon: cardiology },
   { title: "Pharmacy", description: "Get consultation form our Pharmacy team", icon: pharmacy },
@@ -23,7 +23,7 @@ const specialties = [
 
 const SpecialtySection = () => {
   return (
-    <section className="py-20 px-6 md:px-16 bg-[#F8FAFC]">
+    <section id= "services" className="py-20 px-6 md:px-16 bg-[#F8FAFC]">
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-bold text-[#1D3557] mb-2">Our Specialty</h2>
         <p className="text-gray-500 text-sm">We provide the world-class services with the best medical team</p>
@@ -33,14 +33,10 @@ const SpecialtySection = () => {
         {specialties.map((item, idx) => (
           <div
             key={idx}
-            className={`flex flex-col items-center text-center p-6 rounded-2xl shadow-sm ${
-              item.highlight
-                ? "bg-blue-500 text-white shadow-lg"
-                : "bg-white text-gray-800 hover:shadow-md"
-            } transition duration-300`}
+            className="flex flex-col items-center text-center p-6 rounded-2xl shadow-sm bg-white text-gray-800 hover:shadow-md transition duration-300"
           >
             <img src={item.icon} alt={item.title} className="w-12 h-12 mb-4" />
-            <h3 className={`text-lg font-semibold ${item.highlight ? "text-white" : "text-[#1D3557]"}`}>
+            <h3 className="text-lg font-semibold text-[#1D3557]">
               {item.title}
             </h3>
             <p className="text-sm mt-1">{item.description}</p>

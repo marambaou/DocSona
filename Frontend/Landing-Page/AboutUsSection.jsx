@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import doctorImage from '../assets/aboutpicture.jpg';
 
 const AboutUsSection = () => {
   return (
-    <section className="py-20 px-6 md:px-16 bg-white">
+    <section id="about" className="py-20 px-6 md:px-16 bg-white">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         {/* Left: Image */}
         <div>
@@ -27,9 +28,9 @@ const AboutUsSection = () => {
             safety of our patients, effectiveness of our treatments, transparency in our
             practices, and absolute timely care.
           </p>
-          <button className="bg-blue-600 text-white py-2 px-5 rounded-md hover:bg-blue-700 transition">
+          <Link to="/contact" className="bg-blue-600 text-white py-2 px-5 rounded-md hover:bg-blue-700 transition">
             Contact Us
-          </button>
+          </Link>
         </div>
       </div>
     </section>

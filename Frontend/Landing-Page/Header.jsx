@@ -1,6 +1,13 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+   const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/login'); 
+  };
+
   return (
     <header className="w-full flex items-center justify-between px-8 py-6 absolute top-0 left-0 z-50">
       {/* Logo */}
@@ -17,7 +24,7 @@ const Header = () => {
       </nav>
 
       {/* Get Started Button */}
-      <button className="hidden md:block bg-[#1D4ED8] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition">
+      <button  onClick={handleClick} className="hidden md:block bg-[#1D4ED8] text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition">
         Get Started
       </button>
     </header>

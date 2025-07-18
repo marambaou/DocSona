@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 export default function Integrity() {
-
-     const [showModal, setShowModal] = useState(false);
+ const [showModal, setShowModal] = useState(false);
 
      
   const [formData, setFormData] = useState({
@@ -23,18 +22,33 @@ export default function Integrity() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-     
-      console.log("Form submitted:", formData);
-      setIsSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
-      setErrors({});
-      setTimeout(() => setShowModal(false), 2000);
-    }
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateForm()) return;
 
+  try {
+    const res = await fetch('http://localhost:5000/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message || 'Failed to send');
+
+    console.log('Message sent:', data.message);
+    setIsSubmitted(true);
+    setFormData({ name: '', email: '', message: '' });
+    setErrors({});
+    setTimeout(() => setShowModal(false), 2000);
+  } catch (err) {
+    setErrors({ form: err.message });
+    console.error(err.message);
+  
+}
+
+  };
     return(
 
  <section className=" bg-[#FFFFFF]  px-4 py-8 lg:py-20" id="integrity">
@@ -81,7 +95,7 @@ export default function Integrity() {
  <button  onClick={() => setShowModal(true)} className="text-[#FFFFFF] bg-[#0086FF] items-center justify-center px-6 py-2 rounded mt-8 ">Contact Us</button>
      </div>
      </div>
-  {/* Modal for contact form*/}
+   {/* Modal for contact form*/}
       {showModal && (
         <div className="fixed inset-0 bg-[#757575] bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg max-w-md w-full relative shadow-lg">
@@ -95,6 +109,8 @@ export default function Integrity() {
 
  {/* form*/}
             <form className="space-y-4" onSubmit={handleSubmit}>
+              {errors.form && <p className="text-red-500 text-sm">{errors.form}</p>}
+
                 <div>
               <input
                 type="text"
@@ -143,6 +159,7 @@ export default function Integrity() {
         </div>
 
    )}
+
 
 
       </section>

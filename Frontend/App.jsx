@@ -12,6 +12,15 @@ import Login from './Landing-Page/Login';
 import Register from './Landing-Page/Register';
 import ContactSection from './Landing-Page/Contact';
 
+//DoctorDashboardImports
+import DoctorDashboard from './DoctorDashboard/pages/Dashboard';
+import DoctorLayout from './DoctorDashboard/components/Layout';
+import DoctorAppointments from './DoctorDashboard/pages/Appointments';
+import DoctorPatients from './DoctorDashboard/pages/Patients';
+import DoctorPrescriptions from './DoctorDashboard/pages/Prescriptions';
+import DoctorAnalytics from './DoctorDashboard/pages/Analytics';
+import DoctorSettings from './DoctorDashboard/pages/Settings';
+
 
 
 export default function App() {
@@ -42,9 +51,21 @@ export default function App() {
           <Route path="/contact" element={<ContactSection />} />
 
           {/* Patient Dashboard */}
+
+          {/* Doctor Dashboard */}
+          <Route path="/dashboard" element={<DoctorLayout />}>
+            <Route index element={<DoctorDashboard />} />
+            <Route path="appointments" element={<DoctorAppointments />} />
+            <Route path="patients" element={<DoctorPatients />} />
+            <Route path="prescriptions" element={<DoctorPrescriptions />} />
+            <Route path="analytics" element={<DoctorAnalytics />} />
+            <Route path="settings" element={<DoctorSettings />} />
+          </Route>
           
           {/* <Route path="/patient" element={<PatientHome />} /> */}
         </Routes>
+          
+          
       </Router>
     </AuthProvider>
   );

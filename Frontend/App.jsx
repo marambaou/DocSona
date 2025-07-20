@@ -21,6 +21,7 @@ import DoctorPrescriptions from './DoctorDashboard/pages/Prescriptions';
 import DoctorAnalytics from './DoctorDashboard/pages/Analytics';
 import DoctorSettings from './DoctorDashboard/pages/Settings';
 
+import PatientDashboard from './PatientDashboard/PatientDashboard';
 
 
 export default function App() {
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="/contact" element={<ContactSection />} />
 
           {/* Patient Dashboard */}
+          <Route path="/patient" element={<PatientDashboard />} />
 
           {/* Doctor Dashboard */}
           <Route path="/dashboard" element={<DoctorLayout />}>

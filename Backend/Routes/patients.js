@@ -1,6 +1,6 @@
-import express from 'express';
-import authMiddleware from '../middleware/auth.js';
-import Patient from '../models/Patient.js';
+const express = require('express');
+const authMiddleware = require('../Middleware/auth');
+const Patient = require('../Models/Patient');
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const { page = 1, limit = 10, search, sortBy = 'createdAt', sortOrder = 'desc' } = req.query;
-    const filter = { doctor: req.doctor._id };
+    const filter = { doctor: req.user._id };
 
     if (search) {
       filter.$or = [
@@ -44,7 +44,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const patient = await Patient.findOne({
       _id: req.params.id,
-      doctor: req.doctor._id
+      doctor: req.user._id
     });
 
     if (!patient) {
@@ -62,7 +62,7 @@ router.post('/', authMiddleware, async (req, res) => {
   try {
     const patient = new Patient({
       ...req.body,
-      doctor: req.doctor._id
+      doctor: req.user._id
     });
 
     await patient.save();
@@ -76,7 +76,7 @@ router.post('/', authMiddleware, async (req, res) => {
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const patient = await Patient.findOneAndUpdate(
-      { _id: req.params.id, doctor: req.doctor._id },
+      { _id: req.params.id, doctor: req.user._id },
       req.body,
       { new: true }
     );
@@ -96,7 +96,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const patient = await Patient.findOneAndDelete({
       _id: req.params.id,
-      doctor: req.doctor._id
+      doctor: req.user._id
     });
 
     if (!patient) {
@@ -109,4 +109,4 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

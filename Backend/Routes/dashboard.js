@@ -1,16 +1,16 @@
-import express from 'express';
-import authMiddleware from '../middleware/auth.js';
-import Patient from '../models/Patient.js';
-import Appointment from '../models/Appointment.js';
-import Prescription from '../models/Prescription.js';
-import Payment from '../models/Payment.js';
+const express = require('express');
+const authMiddleware = require('../Middleware/auth');
+const Patient = require('../Models/Patient');
+const Appointment = require('../Models/Appointment');
+const Prescription = require('../Models/Prescription');
+const Payment = require('../Models/Payment');
 
 const router = express.Router();
 
 // Get dashboard metrics
 router.get('/metrics', authMiddleware, async (req, res) => {
   try {
-    const doctorId = req.doctor._id;
+    const doctorId = req.user._id;
     const today = new Date();
     const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
@@ -58,4 +58,4 @@ router.get('/metrics', authMiddleware, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

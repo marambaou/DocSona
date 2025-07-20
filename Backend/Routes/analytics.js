@@ -1,15 +1,15 @@
-import express from 'express';
-import authMiddleware from '../middleware/auth.js';
-import Appointment from '../models/Appointment.js';
-import Patient from '../models/Patient.js';
-import Payment from '../models/Payment.js';
+const express = require('express');
+const authMiddleware = require('../Middleware/auth');
+const Appointment = require('../Models/Appointment');
+const Patient = require('../Models/Patient');
+const Payment = require('../Models/Payment');
 
 const router = express.Router();
 
 // Get analytics overview
 router.get('/overview', authMiddleware, async (req, res) => {
   try {
-    const doctorId = req.doctor._id;
+    const doctorId = req.user._id;
     const now = new Date();
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -147,4 +147,4 @@ router.get('/overview', authMiddleware, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

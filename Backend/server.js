@@ -27,6 +27,13 @@ mongoose.connect(process.env.MONGO_URI, {
 // Import routes
 const authRoutes = require('./Routes/auth');
 const contactRoutes = require('./Routes/contact');
+const appointmentsRoutes = require('./Routes/appointments');
+const dashboardRoutes = require('./Routes/dashboard');
+const analyticsRoutes = require('./Routes/analytics');
+const patientsRoutes = require('./Routes/patients');
+const doctorsRoutes = require('./Routes/doctors');
+const prescriptionsRoutes = require('./Routes/prescriptions');
+
 
 // Test Route
 app.get('/', (req, res) => {
@@ -36,6 +43,13 @@ app.get('/', (req, res) => {
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/appointments', appointmentsRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/patients', patientsRoutes);
+app.use('/api/doctors', doctorsRoutes);
+app.use('/api/prescriptions', prescriptionsRoutes);
+
 
 // Start Server
 app.listen(PORT, () => {

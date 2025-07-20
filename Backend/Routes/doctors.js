@@ -1,7 +1,7 @@
-import express from 'express';
-import bcrypt from 'bcryptjs';
-import authMiddleware from '../middleware/auth.js';
-import Doctor from '../models/Doctor.js';
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const authMiddleware = require('../Middleware/auth');
+const Doctor = require('../Models/Doctor');
 
 const router = express.Router();
 
@@ -49,4 +49,4 @@ router.put('/password', authMiddleware, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

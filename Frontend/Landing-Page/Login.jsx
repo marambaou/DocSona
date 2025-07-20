@@ -32,7 +32,13 @@ const Login = () => {
     const result = await login(formData.email, formData.password);
     
     if (result.success) {
-      navigate('/dashboard');
+      if (result.user && result.user.role === 'Doctor') {
+        navigate('/dashboard');
+      } else if (result.user && result.user.role === 'Patient') {
+        navigate('/patient');
+      } else {
+        navigate('/dashboard'); // fallback
+      }
     }
     setLoading(false);
   };

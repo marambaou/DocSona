@@ -1,6 +1,6 @@
-import express from 'express';
-import authMiddleware from '../middleware/auth.js';
-import Appointment from '../models/Appointment.js';
+const express = require('express');
+const authMiddleware = require('../Middleware/auth');
+const Appointment = require('../Models/Appointment');
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const { page = 1, limit = 10, status, date } = req.query;
-    const filter = { doctor: req.doctor._id };
+    const filter = { doctor: req.user._id };
 
     if (status) filter.status = status;
     if (date) {
@@ -46,7 +46,7 @@ router.get('/today', authMiddleware, async (req, res) => {
     const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
 
     const appointments = await Appointment.find({
-      doctor: req.doctor._id,
+      doctor: req.user._id,
       date: { $gte: startOfToday, $lt: endOfToday }
     })
       .populate('patient', 'name email phone age')
@@ -67,7 +67,7 @@ router.get('/stats', authMiddleware, async (req, res) => {
     const stats = await Appointment.aggregate([
       {
         $match: {
-          doctor: req.doctor._id,
+          doctor: req.user._id,
           date: { $gte: sevenDaysAgo }
         }
       },
@@ -98,7 +98,7 @@ router.get('/upcoming', authMiddleware, async (req, res) => {
     nextWeek.setDate(nextWeek.getDate() + 7);
 
     const upcoming = await Appointment.find({
-      doctor: req.doctor._id,
+      doctor: req.user._id,
       date: { $gte: now, $lte: nextWeek },
       status: { $in: ['scheduled', 'confirmed'] }
     })
@@ -117,7 +117,7 @@ router.post('/', authMiddleware, async (req, res) => {
   try {
     const appointment = new Appointment({
       ...req.body,
-      doctor: req.doctor._id
+      doctor: req.user._id
     });
 
     await appointment.save();
@@ -133,7 +133,7 @@ router.post('/', authMiddleware, async (req, res) => {
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const appointment = await Appointment.findOneAndUpdate(
-      { _id: req.params.id, doctor: req.doctor._id },
+      { _id: req.params.id, doctor: req.user._id },
       req.body,
       { new: true }
     ).populate('patient', 'name email phone age');
@@ -153,7 +153,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const appointment = await Appointment.findOneAndDelete({
       _id: req.params.id,
-      doctor: req.doctor._id
+      doctor: req.user._id
     });
 
     if (!appointment) {
@@ -166,4 +166,4 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

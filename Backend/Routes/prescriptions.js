@@ -1,6 +1,6 @@
-import express from 'express';
-import authMiddleware from '../middleware/auth.js';
-import Prescription from '../models/Prescription.js';
+const express = require('express');
+const authMiddleware = require('../Middleware/auth');
+const Prescription = require('../Models/Prescription');
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const { page = 1, limit = 10, patient } = req.query;
-    const filter = { doctor: req.doctor._id };
+    const filter = { doctor: req.user._id };
 
     if (patient) filter.patient = patient;
 
@@ -37,7 +37,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const prescription = await Prescription.findOne({
       _id: req.params.id,
-      doctor: req.doctor._id
+      doctor: req.user._id
     })
       .populate('patient', 'name email phone age')
       .populate('appointment', 'date time reason');
@@ -57,7 +57,7 @@ router.post('/', authMiddleware, async (req, res) => {
   try {
     const prescription = new Prescription({
       ...req.body,
-      doctor: req.doctor._id
+      doctor: req.user._id
     });
 
     await prescription.save();
@@ -73,7 +73,7 @@ router.post('/', authMiddleware, async (req, res) => {
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const prescription = await Prescription.findOneAndUpdate(
-      { _id: req.params.id, doctor: req.doctor._id },
+      { _id: req.params.id, doctor: req.user._id },
       req.body,
       { new: true }
     ).populate('patient', 'name email phone age');
@@ -93,7 +93,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const prescription = await Prescription.findOneAndDelete({
       _id: req.params.id,
-      doctor: req.doctor._id
+      doctor: req.user._id
     });
 
     if (!prescription) {
@@ -106,4 +106,4 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

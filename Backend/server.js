@@ -3,6 +3,9 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const morgan = require('morgan');
+const path = require('path');
+
 
 dotenv.config(); // Load .env variables
 
@@ -27,12 +30,12 @@ mongoose.connect(process.env.MONGO_URI, {
 // Import routes
 const authRoutes = require('./Routes/auth');
 const contactRoutes = require('./Routes/contact');
-const appointmentsRoutes = require('./Routes/appointments');
-const dashboardRoutes = require('./Routes/dashboard');
-const analyticsRoutes = require('./Routes/analytics');
-const patientsRoutes = require('./Routes/patients');
-const doctorsRoutes = require('./Routes/doctors');
-const prescriptionsRoutes = require('./Routes/prescriptions');
+
+// Import routes
+const appointmentRoutes = require('./Routes/appointmentRoutes');
+const patientRoutes = require('./Routes/patientRoutes');
+const prescriptionRoutes = require('./Routes/prescriptionRoutes');
+const dashboardRoutes = require('./Routes/dashboardRoutes');
 
 
 // Test Route
@@ -43,12 +46,13 @@ app.get('/', (req, res) => {
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
-app.use('/api/appointments', appointmentsRoutes);
+
+// Routes
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/patients', patientRoutes);
+app.use('/api/prescriptions', prescriptionRoutes);
 app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/analytics', analyticsRoutes);
-app.use('/api/patients', patientsRoutes);
-app.use('/api/doctors', doctorsRoutes);
-app.use('/api/prescriptions', prescriptionsRoutes);
+
 
 
 // Start Server

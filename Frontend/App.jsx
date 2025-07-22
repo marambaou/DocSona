@@ -13,13 +13,14 @@ import Register from './Landing-Page/Register';
 import ContactSection from './Landing-Page/Contact';
 
 //DoctorDashboardImports
-import DoctorDashboard from './DoctorDashboard/pages/Dashboard';
-import DoctorLayout from './DoctorDashboard/components/Layout';
-import DoctorAppointments from './DoctorDashboard/pages/Appointments';
-import DoctorPatients from './DoctorDashboard/pages/Patients';
-import DoctorPrescriptions from './DoctorDashboard/pages/Prescriptions';
-import DoctorAnalytics from './DoctorDashboard/pages/Analytics';
-import DoctorSettings from './DoctorDashboard/pages/Settings';
+import DoctorDashboard from './DoctorDashboard/components/Dashboard';
+import DashboardHeader from './DoctorDashboard/components/Header';
+import Sidebar from './DoctorDashboard/components/Sidebar';
+import Dashboard from './DoctorDashboard/components/Dashboard';
+import Patients from './DoctorDashboard/components/patients/Patients';
+import Appointments from './DoctorDashboard/components/appointments/Appointments';
+import Prescriptions from './DoctorDashboard/components/prescriptions/Prescriptions';
+import Settings from './DoctorDashboard/components/settings/Settings';
 
 import PatientDashboard from './PatientDashboard/PatientDashboard';
 
@@ -54,15 +55,56 @@ export default function App() {
           {/* Patient Dashboard */}
           <Route path="/patient" element={<PatientDashboard />} />
 
-          {/* Doctor Dashboard */}
-          <Route path="/dashboard" element={<DoctorLayout />}>
-            <Route index element={<DoctorDashboard />} />
-            <Route path="appointments" element={<DoctorAppointments />} />
-            <Route path="patients" element={<DoctorPatients />} />
-            <Route path="prescriptions" element={<DoctorPrescriptions />} />
-            <Route path="analytics" element={<DoctorAnalytics />} />
-            <Route path="settings" element={<DoctorSettings />} />
-          </Route>
+                  // ...existing code...
+          {/* Doctor Dashboard main */}
+          <Route path="/doctor" element={
+            <div className="flex">
+              <Sidebar />
+              <div className="flex-1">
+                <DashboardHeader />
+                <Dashboard />
+              </div>
+            </div>
+          } />
+
+          {/* Doctor Dashboard sub-pages */}
+          <Route path="/doctor/patients" element={
+            <div className="flex">
+              <Sidebar />
+              <div className="flex-1">
+                <DashboardHeader />
+                <Patients />
+              </div>
+            </div>
+          } />
+          <Route path="/doctor/appointments" element={
+            <div className="flex">
+              <Sidebar />
+              <div className="flex-1">
+                <DashboardHeader />
+                <Appointments />
+              </div>
+            </div>
+          } />
+          <Route path="/doctor/prescriptions" element={
+            <div className="flex">
+              <Sidebar />
+              <div className="flex-1">
+                <DashboardHeader />
+                <Prescriptions />
+              </div>
+            </div>
+          } />
+          <Route path="/doctor/settings" element={
+            <div className="flex">
+              <Sidebar />
+              <div className="flex-1">
+                <DashboardHeader />
+                <Settings />
+              </div>
+            </div>
+          } />
+          // ...existing code...
           
           {/* <Route path="/patient" element={<PatientHome />} /> */}
         </Routes>

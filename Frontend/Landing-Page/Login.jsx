@@ -33,7 +33,7 @@ const Login = () => {
     
     if (result.success) {
       if (result.user && result.user.role === 'Doctor') {
-        navigate('/dashboard');
+        navigate('/doctor');
       } else if (result.user && result.user.role === 'Patient') {
         navigate('/patient');
       } else {

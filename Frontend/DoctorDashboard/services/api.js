@@ -1,75 +1,190 @@
-import axios from 'axios';
+// Base URL for API requests
+const API_URL = 'http://localhost:5000/api';
 
-const API_BASE_URL = 'http://localhost:5000/api';
-
-const api = axios.create({
-  baseURL: API_BASE_URL,
-});
-
-// Add auth token to requests
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
-// Handle auth errors
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+// Helper function for handling fetch responses
+const handleResponse = async (response) => {
+  if (!response.ok) {
+    // Try to get error message from the response
+    let errorMessage;
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.message || `HTTP error ${response.status}`;
+    } catch (e) {
+      errorMessage = `HTTP error ${response.status}`;
     }
-    return Promise.reject(error);
+    throw new Error(errorMessage);
   }
-);
-
-export const authService = {
-  login: (email, password) => api.post('/auth/login', { email, password }),
-  register: (data) => api.post('/auth/register', data),
-  getProfile: () => api.get('/auth/me'),
+  
+  return response.json();
 };
 
-export const dashboardService = {
-  getMetrics: () => api.get('/dashboard/metrics'),
+// Common request headers
+const headers = {
+  'Content-Type': 'application/json',
 };
 
-export const appointmentService = {
-  getAll: (params) => api.get('/appointments', { params }),
-  getTodayAppointments: () => api.get('/appointments/today'),
-  getStats: () => api.get('/appointments/stats'),
-  getUpcoming: () => api.get('/appointments/upcoming'),
-  create: (data) => api.post('/appointments', data),
-  update: (id, data) => api.put(`/appointments/${id}`, data),
-  delete: (id) => api.delete(`/appointments/${id}`),
+// API for Patient operations
+export const patientApi = {
+  getAll: async () => {
+    const response = await fetch(`${API_URL}/patients`, { headers });
+    return handleResponse(response);
+  },
+  
+  getById: async (id) => {
+    const response = await fetch(`${API_URL}/patients/${id}`, { headers });
+    return handleResponse(response);
+  },
+  
+  create: async (patientData) => {
+    const response = await fetch(`${API_URL}/patients`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(patientData),
+    });
+    return handleResponse(response);
+  },
+  
+  update: async (id, patientData) => {
+    const response = await fetch(`${API_URL}/patients/${id}`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(patientData),
+    });
+    return handleResponse(response);
+  },
+  
+  delete: async (id) => {
+    const response = await fetch(`${API_URL}/patients/${id}`, {
+      method: 'DELETE',
+      headers,
+    });
+    return handleResponse(response);
+  },
 };
 
-export const patientService = {
-  getAll: (params) => api.get('/patients', { params }),
-  getById: (id) => api.get(`/patients/${id}`),
-  create: (data) => api.post('/patients', data),
-  update: (id, data) => api.put(`/patients/${id}`, data),
-  delete: (id) => api.delete(`/patients/${id}`),
+// API for Appointment operations
+export const appointmentApi = {
+  getAll: async () => {
+    const response = await fetch(`${API_URL}/appointments`, { headers });
+    return handleResponse(response);
+  },
+  
+  getById: async (id) => {
+    const response = await fetch(`${API_URL}/appointments/${id}`, { headers });
+    return handleResponse(response);
+  },
+  
+  create: async (appointmentData) => {
+    const response = await fetch(`${API_URL}/appointments`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(appointmentData),
+    });
+    return handleResponse(response);
+  },
+  
+  update: async (id, appointmentData) => {
+    const response = await fetch(`${API_URL}/appointments/${id}`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(appointmentData),
+    });
+    return handleResponse(response);
+  },
+  
+  delete: async (id) => {
+    const response = await fetch(`${API_URL}/appointments/${id}`, {
+      method: 'DELETE',
+      headers,
+    });
+    return handleResponse(response);
+  },
+
+  // Get appointments for a specific patient
+  getByPatientId: async (patientId) => {
+    const response = await fetch(`${API_URL}/appointments/patient/${patientId}`, { headers });
+    return handleResponse(response);
+  },
+
+  // Get upcoming appointments (today and future)
+  getUpcoming: async () => {
+    const response = await fetch(`${API_URL}/appointments/upcoming`, { headers });
+    return handleResponse(response);
+  },
 };
 
-export const prescriptionService = {
-  getAll: (params) => api.get('/prescriptions', { params }),
-  getById: (id) => api.get(`/prescriptions/${id}`),
-  create: (data) => api.post('/prescriptions', data),
-  update: (id, data) => api.put(`/prescriptions/${id}`, data),
-  delete: (id) => api.delete(`/prescriptions/${id}`),
+// API for Prescription operations
+export const prescriptionApi = {
+  getAll: async () => {
+    const response = await fetch(`${API_URL}/prescriptions`, { headers });
+    return handleResponse(response);
+  },
+  
+  getById: async (id) => {
+    const response = await fetch(`${API_URL}/prescriptions/${id}`, { headers });
+    return handleResponse(response);
+  },
+  
+  create: async (prescriptionData) => {
+    const response = await fetch(`${API_URL}/prescriptions`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(prescriptionData),
+    });
+    return handleResponse(response);
+  },
+  
+  update: async (id, prescriptionData) => {
+    const response = await fetch(`${API_URL}/prescriptions/${id}`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(prescriptionData),
+    });
+    return handleResponse(response);
+  },
+  
+  delete: async (id) => {
+    const response = await fetch(`${API_URL}/prescriptions/${id}`, {
+      method: 'DELETE',
+      headers,
+    });
+    return handleResponse(response);
+  },
+
+  // Get prescriptions for a specific patient
+  getByPatientId: async (patientId) => {
+    const response = await fetch(`${API_URL}/prescriptions/patient/${patientId}`, { headers });
+    return handleResponse(response);
+  },
 };
 
-export const analyticsService = {
-  getOverview: () => api.get('/analytics/overview'),
+// API for Dashboard statistics
+export const dashboardApi = {
+  getStats: async () => {
+    const response = await fetch(`${API_URL}/dashboard/stats`, { headers });
+    return handleResponse(response);
+  },
+  
+  getAppointmentsByDate: async (start, end) => {
+    const response = await fetch(`${API_URL}/dashboard/appointments-by-date?start=${start}&end=${end}`, { headers });
+    return handleResponse(response);
+  },
+  
+  getPatientGrowth: async (months) => {
+    const response = await fetch(`${API_URL}/dashboard/patient-growth?months=${months}`, { headers });
+    return handleResponse(response);
+  },
+
+  getPrescriptionStats: async () => {
+    const response = await fetch(`${API_URL}/dashboard/prescription-stats`, { headers });
+    return handleResponse(response);
+  },
 };
 
-export const doctorService = {
-  updateProfile: (data) => api.put('/doctors/profile', data),
-  changePassword: (data) => api.put('/doctors/password', data),
+// Export a default object with all APIs
+export default {
+  patient: patientApi,
+  appointment: appointmentApi,
+  prescription: prescriptionApi,
+  dashboard: dashboardApi
 };
-
-export default api;

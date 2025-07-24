@@ -22,7 +22,9 @@ import Appointments from './DoctorDashboard/components/appointments/Appointments
 import Prescriptions from './DoctorDashboard/components/prescriptions/Prescriptions';
 import Settings from './DoctorDashboard/components/settings/Settings';
 
-import PatientDashboard from './PatientDashboard/PatientDashboard';
+// import PatientDashboard from './PatientDashboard/PatientDashboard';
+import DoctorInformation from './PatientDashboard/components/PatientDashboard.jsx';
+import AppointmentManagement from './PatientDashboard/components/AppointmentManagement.jsx';
 
 
 export default function App() {
@@ -53,7 +55,7 @@ export default function App() {
           <Route path="/contact" element={<ContactSection />} />
 
           {/* Patient Dashboard */}
-          <Route path="/patient" element={<PatientDashboard />} />
+          <Route path="/patient" element={<AppointmentManagement />} />
 
                   // ...existing code...
           {/* Doctor Dashboard main */}

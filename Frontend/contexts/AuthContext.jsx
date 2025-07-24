@@ -63,36 +63,42 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (email, password) => {
-    try {
-      setError(null);
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+ const login = async (email, password) => {
+  try {
+    setError(null);
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (data.success) {
-        // Store token and user data
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        setUser(data.user);
-        return { success: true, message: data.message };
-      } else {
-        setError(data.message);
-        return { success: false, message: data.message };
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      const errorMessage = 'Network error. Please try again.';
-      setError(errorMessage);
-      return { success: false, message: errorMessage };
+    if (data.success) {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      setUser(data.user);
+
+      
+      return {
+        success: true,
+        message: data.message,
+        user: data.user, 
+      };
+    } else {
+      setError(data.message);
+      return { success: false, message: data.message };
     }
-  };
+  } catch (error) {
+    console.error('Login error:', error);
+    const errorMessage = 'Network error. Please try again.';
+    setError(errorMessage);
+    return { success: false, message: errorMessage };
+  }
+};
+
 
   const logout = () => {
     localStorage.removeItem('token');
